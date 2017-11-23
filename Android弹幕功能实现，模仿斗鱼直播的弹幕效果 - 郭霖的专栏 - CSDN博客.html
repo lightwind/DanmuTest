@@ -1,0 +1,1625 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    
+<head>          
+            <link rel="canonical" href="http://blog.csdn.net/guolin_blog/article/details/51933728"/> 
+
+   
+
+  
+ <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848"> 
+       
+    <title>Android弹幕功能实现，模仿斗鱼直播的弹幕效果 - 郭霖的专栏
+        - CSDN博客</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="大家好，感觉好像已经很久没更新博客了。前段时间主要是忙于新书的事情，时间比较紧张。而现在新书已经完稿，剩下的事情就都是出版社的工作了，那么我又可以抽出时间来写写博客了。记得之前有位朋友在我的公众号里问过我，像直播的那种弹幕功能该如何实现？如今直播行业确实是非常火爆啊，大大小小的公司都要涉足一下直播的领域，用斗鱼的话来讲，现在就是千播之战。而弹幕则无疑是直播功能当中最为重要的一个功能之一，那么今天，我就带着大" />
+
+    <meta name="keywords" content="android,直播,弹幕" />
+
+   
+    <script src="http://static.blog.csdn.net/scripts/blog_static_head.min.js" type="text/javascript"></script>
+
+    
+        <!--new top-->
+       
+       
+        <!--new top-->
+    
+      <!-- ad begin -->
+         
+    <!-- ad end-->
+
+    <link rel="Stylesheet" type="text/css" href="http://static.blog.csdn.net/skin/skin-yellow/css/style.css?v=1.1" />
+
+    
+
+    <link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="/sinyu890807/rss/list" />
+    <link rel="shortcut icon" href="http://c.csdnimg.cn/public/favicon.ico" />
+    <link type="text/css" rel="stylesheet" href="http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/default.css" />
+ 
+
+
+
+    <link href="http://c.csdnimg.cn/blog/csdn_public_blog_detail.min.css" type="text/css" rel="stylesheet" />
+     
+         <link rel="stylesheet" href="http://static.blog.csdn.net/css/csdn_blog_detail.min.css" />
+
+  
+
+
+    <!-- 请置于所有广告位代码之前 --> 
+            <script src="http://dup.baidustatic.com/js/ds.js"></script>
+
+</head>
+
+
+<body>
+     
+
+    <!-- 广告位开始 -->
+        
+    <!-- 广告位结束 -->
+
+    
+   
+      <!--new top-->
+    <script id="toolbar-tpl-scriptId" fixed="true" prod="blog" skin="black" src="http://c.csdnimg.cn/public/common/toolbar/js/html.js" type="text/javascript"></script>
+     <!--new top-->
+    <div id="container">
+        <div id="header">
+    <div class="header">
+        <div id="blog_title">
+            <h2>
+                <a href="http://blog.csdn.net/guolin_blog">郭霖的专栏</a></h2>
+            <h3>每当你在感叹，如果有这样一个东西就好了的时候，请注意，其实这是你的机会</h3>
+            <div class="clear">
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+        
+     
+    </div>
+</div>
+<div id="navigator">
+    <div class="navigator_bg">
+    </div>
+    <div class="navigator">
+        <ul>           
+                <li id="btnContents"><a href="http://blog.csdn.net/guolin_blog?viewmode=contents"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_mulu'])">
+                    <img src="http://static.blog.csdn.net/images/ico_list.gif">目录视图</span></a></li>
+                <li id="btnView"><a href="http://blog.csdn.net/guolin_blog?viewmode=list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_zhaiyao'])">
+                    <img src="http://static.blog.csdn.net/images/ico_summary.gif">摘要视图</span></a></li>
+                <li id="btnRss"><a href="http://blog.csdn.net/guolin_blog/rss/list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_RSS'])">
+                    <img src="http://static.blog.csdn.net/images/ico_rss.gif">订阅</span></a></li>                   
+            
+
+            </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    var username = "sinyu890807";
+    var _blogger = username;
+    var blog_address = "http://blog.csdn.net/guolin_blog";
+    var static_host = "http://static.blog.csdn.net";
+    var currentUserName = "qq_37881148";  
+</script>
+
+        <div id="body">
+            <div id="main">
+                <div class="main">
+                        <div class="ad_class">
+<div class="notice tracking-ad" data-mod='popu_3' > 
+
+<a href="http://blog.csdn.net/turingbooks/article/details/78475571">
+<font color=red><strong>图灵赠书——程序员11月书单</strong></font></a>
+
+&nbsp;&nbsp;&nbsp;&nbsp
+
+
+<a href="http://edu.csdn.net/topic/python2?utm_source=blog4">
+<font color=blue><strong>【思考】Python这么厉害的原因竟然是！</strong></font></a>
+&nbsp;&nbsp;&nbsp;&nbsp
+
+<a 
+href="http://blog.csdn.net/epubit17/article/details/78474448">
+<font color=blue><strong>异步赠书:kafka/TensorFlow机器学习</strong></font></a>
+
+&nbsp;&nbsp;&nbsp;&nbsp
+
+
+<a href="http://blog.csdn.net/broadview2006/article/details/78491167">
+<font color=red><strong>每周荐书：OpenCV、自然语言、SpringBoot2</strong></font></a>
+
+
+
+</div>                        </div>
+
+                        
+
+
+
+  
+
+
+
+
+
+
+<script   type="text/javascript" src="http://static.blog.csdn.net/scripts/category.js"></script>
+
+  <script type="text/ecmascript">
+      window.quickReplyflag = true;
+      var isBole = false; 
+      var fasrc="http://my.csdn.net/my/favorite/miniadd?t=Android%e5%bc%b9%e5%b9%95%e5%8a%9f%e8%83%bd%e5%ae%9e%e7%8e%b0%ef%bc%8c%e6%a8%a1%e4%bb%bf%e6%96%97%e9%b1%bc%e7%9b%b4%e6%92%ad%e7%9a%84%e5%bc%b9%e5%b9%95%e6%95%88%e6%9e%9c&u=http://blog.csdn.net/guolin_blog/article/details/51933728"
+    </script>
+<div id="article_details" class="details">
+    <div class="article_title">   
+         <span class="ico ico_type_Original"></span>
+
+    <h1>
+        <span class="link_title"><a href="/guolin_blog/article/details/51933728">
+        Android弹幕功能实现，模仿斗鱼直播的弹幕效果        
+           
+        </a>
+        </span>
+
+         
+    </h1>
+</div>
+
+   
+
+        <div class="article_manage clearfix">
+        <div class="article_l">
+            <span class="link_categories">
+            标签：
+              <a href='http://www.csdn.net/tag/android' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">android</a><a href='http://www.csdn.net/tag/%e7%9b%b4%e6%92%ad' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">直播</a><a href='http://www.csdn.net/tag/%e5%bc%b9%e5%b9%95' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">弹幕</a><a href='http://www.csdn.net/tag/%e6%96%97%e9%b1%bc' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">斗鱼</a><a href='http://www.csdn.net/tag/bilibili' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">bilibili</a>
+            </span>
+        </div>
+        <div class="article_r">
+            <span class="link_postdate">2016-10-18 08:01</span>
+            <span class="link_view" title="阅读次数">51890人阅读</span>
+            <span class="link_comments" title="评论次数"> <a href="#comments" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_pinglun'])">评论</a>(115)</span>
+            <span class="link_collect tracking-ad" data-mod="popu_171"> <a href="javascript:void(0);" onclick="javascript:collectArticle('Android%e5%bc%b9%e5%b9%95%e5%8a%9f%e8%83%bd%e5%ae%9e%e7%8e%b0%ef%bc%8c%e6%a8%a1%e4%bb%bf%e6%96%97%e9%b1%bc%e7%9b%b4%e6%92%ad%e7%9a%84%e5%bc%b9%e5%b9%95%e6%95%88%e6%9e%9c','51933728');return false;" title="收藏">收藏</a></span>
+             <span class="link_report"> <a href="#report" onclick="javascript:report(51933728,2);return false;" title="举报">举报</a></span>
+
+        </div>
+    </div>    <style type="text/css">        
+            .embody{
+                padding:10px 10px 10px;
+                margin:0 -20px;
+                border-bottom:solid 1px #ededed;                
+            }
+            .embody_b{
+                margin:0 ;
+                padding:10px 0;
+            }
+            .embody .embody_t,.embody .embody_c{
+                display: inline-block;
+                margin-right:10px;
+            }
+            .embody_t{
+                font-size: 12px;
+                color:#999;
+            }
+            .embody_c{
+                font-size: 12px;
+            }
+            .embody_c img,.embody_c em{
+                display: inline-block;
+                vertical-align: middle;               
+            }
+             .embody_c img{               
+                width:30px;
+                height:30px;
+            }
+            .embody_c em{
+                margin: 0 20px 0 10px;
+                color:#333;
+                font-style: normal;
+            }
+    </style>
+    <script  type="text/javascript">
+        $(function () {
+            try
+            {
+                var lib = eval("("+$("#lib").attr("value")+")");
+                var html = "";
+                if (lib.err == 0) {
+                    $.each(lib.data, function (i) {
+                        var obj = lib.data[i];
+                        //html += '<img src="' + obj.logo + '"/>' + obj.name + "&nbsp;&nbsp;";
+                        html += ' <a href="' + obj.url + '" target="_blank">';
+                        html += ' <img src="' + obj.logo + '">';
+                        html += ' <em><b>' + obj.name + '</b></em>';
+                        html += ' </a>';
+                    });
+                    if (html != "") {
+                        setTimeout(function () {
+                            $("#lib").html(html);                      
+                            $("#embody").show();
+                        }, 100);
+                    }
+                }      
+            } catch (err)
+            { }
+            
+        });
+    </script>
+      <div class="category clearfix">
+        <div class="category_l">
+           <img src="http://static.blog.csdn.net/images/category_icon.jpg">
+            <span>分类：</span>
+        </div>
+        <div class="category_r">
+                    <label  onclick="GetCategoryArticles('1369150','sinyu890807','top','51933728');">
+                        <span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_fenlei']);">Android精华教程<em>（20）</em></span>
+                      <img class="arrow-down" src="http://static.blog.csdn.net/images/arrow_triangle _down.jpg" style="display:inline;">
+                      <img class="arrow-up" src="http://static.blog.csdn.net/images/arrow_triangle_up.jpg" style="display:none;">
+                        <div class="subItem">
+                            <div class="subItem_t"><a  href="http://blog.csdn.net/sinyu890807/article/category/1369150"  target="_blank">作者同类文章</a><i class="J_close">X</i></div>
+                            <ul class="subItem_l" id="top_1369150">                            
+                            </ul>
+                        </div>
+                    </label>                    
+        </div>
+    </div>
+        <div   class="bog_copyright">         
+            <p  class="copyright_p" >版权声明：本文出自郭霖的博客，转载必须注明出处。</p>
+        </div>
+
+  
+
+  
+  
+     
+
+
+<div id="article_content" class="article_content tracking-ad" data-mod=popu_307  data-dsm = "post" >
+        <div class="markdown_views"><p>转载请注明出处：<a href="http://blog.csdn.net/sinyu890807/article/details/51933728">http://blog.csdn.net/sinyu890807/article/details/51933728</a></p>
+
+<blockquote>
+  <p>本文同步发表于我的微信公众号，扫一扫文章底部的二维码或在微信搜索 <strong>郭霖</strong> 即可关注，每天都有文章更新。</p>
+</blockquote>
+
+<p>大家好，感觉好像已经很久没更新博客了。前段时间主要是忙于新书的事情，时间比较紧张。而现在新书已经完稿，剩下的事情就都是出版社的工作了，那么我又可以抽出时间来写写博客了。</p>
+
+<p>记得之前有位朋友在我的公众号里问过我，像直播的那种弹幕功能该如何实现？如今直播行业确实是非常火爆啊，大大小小的公司都要涉足一下直播的领域，用斗鱼的话来讲，现在就是千播之战。而弹幕则无疑是直播功能当中最为重要的一个功能之一，那么今天，我就带着大家一起来实现一个简单的Android端弹幕效果。</p>
+
+
+
+<h1 id="分析">分析</h1>
+
+<p>首先我们来看一下斗鱼上的弹幕效果，如下图所示：</p>
+
+<p></p><center><img src="http://img.blog.csdn.net/20161015102910407" alt="" title=""></center><p></p>
+
+<p>这是一个Dota2游戏直播的界面，我们可以看到，在游戏界面的上方有很多的弹幕，看直播的观众们就是在这里进行讨论的。</p>
+
+<p>那么这样的一个界面该如何实现呢？其实并不复杂，我们只需要首先在布局中放置一个显示游戏界面的View，然后在游戏界面的上方再覆盖一个显示弹幕的View就可以了。弹幕的View必须要做成完全透明的，这样即使覆盖在游戏界面的上方也不会影响到游戏的正常观看，只有当有人发弹幕消息时，再将消息绘制到弹幕的View上面就可以了。原理示意图如下所示：</p>
+
+<p></p><center><img src="http://img.blog.csdn.net/20161015095851544" alt="" title=""></center><p></p>
+
+<p>但是我们除了要能看到弹幕之外也要能发弹幕才行，因此还要再在弹幕的View上面再覆盖一个操作界面的View，然后我们就可以在操作界面上发弹幕、送礼物等。原理示意图如下所示：</p>
+
+<p></p><center><img src="http://img.blog.csdn.net/20161015101707211" alt="" title=""></center><p></p>
+
+<p>这样我们就把基本的实现原理分析完了，下面就让我们开始一步步实现吧。</p>
+
+
+
+<h1 id="实现视频播放">实现视频播放</h1>
+
+<p>由于本篇文章的主题是实现弹幕效果，并不涉及直播的任何其他功能，因此这里我们就简单地使用VideoView播放一个本地视频来模拟最底层的游戏界面。</p>
+
+<p>首先使用Android Studio新建一个DanmuTest项目，然后修改activity_main.xml中的代码，如下所示：</p>
+
+
+
+<pre class="prettyprint"><code class="language-xml hljs "><span class="hljs-tag">&lt;<span class="hljs-title">RelativeLayout
+</span>    <span class="hljs-attribute">xmlns:android</span>=<span class="hljs-value">"http://schemas.android.com/apk/res/android"</span>
+    <span class="hljs-attribute">android:id</span>=<span class="hljs-value">"@+id/activity_main"</span>
+    <span class="hljs-attribute">android:layout_width</span>=<span class="hljs-value">"match_parent"</span>
+    <span class="hljs-attribute">android:layout_height</span>=<span class="hljs-value">"match_parent"</span>
+    <span class="hljs-attribute">android:background</span>=<span class="hljs-value">"#000"</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-title">VideoView
+</span>        <span class="hljs-attribute">android:id</span>=<span class="hljs-value">"@+id/video_view"</span>
+        <span class="hljs-attribute">android:layout_width</span>=<span class="hljs-value">"match_parent"</span>
+        <span class="hljs-attribute">android:layout_height</span>=<span class="hljs-value">"wrap_content"</span>
+        <span class="hljs-attribute">android:layout_centerInParent</span>=<span class="hljs-value">"true"</span>/&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-title">RelativeLayout</span>&gt;</span></code></pre>
+
+<p>布局文件的代码非常简单，只有一个VideoView，我们将它设置为居中显示。 <br>
+然后修改MainActivity中的代码，如下所示：</p>
+
+
+
+<pre class="prettyprint"><code class="language-java hljs "><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AppCompatActivity</span> {</span>
+
+    <span class="hljs-annotation">@Override</span>
+    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span>(Bundle savedInstanceState) {
+        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        VideoView videoView = (VideoView) findViewById(R.id.video_view);
+        videoView.setVideoPath(Environment.getExternalStorageDirectory() + <span class="hljs-string">"/Pixels.mp4"</span>);
+        videoView.start();
+    }
+
+
+    <span class="hljs-annotation">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onWindowFocusChanged</span>(<span class="hljs-keyword">boolean</span> hasFocus) {
+        <span class="hljs-keyword">super</span>.onWindowFocusChanged(hasFocus);
+        <span class="hljs-keyword">if</span> (hasFocus &amp;&amp; Build.VERSION.SDK_INT &gt;= <span class="hljs-number">19</span>) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
+    }
+
+}</code></pre>
+
+<p>上面的代码中使用了VideoView的最基本用法。在onCreate()方法中获取到了VideoView的实例，给它设置了一个视频文件的地址，然后调用start()方法开始播放。当然，我事先已经在SD的根目录中准备了一个叫Pixels.mp4的视频文件。</p>
+
+<p>这里使用到了SD卡的功能，但是为了代码简单起见，我并没有加入运行时权限的处理，因此一定要记得将你的项目的targetSdkVersion指定成23以下。</p>
+
+<p>另外，为了让视频播放可以有最好的体验效果，这里使用了沉浸式模式的写法。对沉浸式模式还不理解的朋友可以参考我的上一篇文章 <a href="http://blog.csdn.net/sinyu890807/article/details/51763825">Android状态栏微技巧，带你真正理解沉浸式模式</a> 。</p>
+
+<p>最后，我们在AndroidManifest.xml中将Activity设置为横屏显示并加入权限声明，如下所示：</p>
+
+
+
+<pre class="prettyprint"><code class="language-xml hljs "><span class="hljs-tag">&lt;<span class="hljs-title">manifest</span> <span class="hljs-attribute">xmlns:android</span>=<span class="hljs-value">"http://schemas.android.com/apk/res/android"</span>
+          <span class="hljs-attribute">package</span>=<span class="hljs-value">"com.example.guolin.danmutest"</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-title">uses-permission</span> <span class="hljs-attribute">android:name</span>=<span class="hljs-value">"android.permission.WRITE_EXTERNAL_STORAGE"</span> /&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-title">application
+</span>        <span class="hljs-attribute">android:allowBackup</span>=<span class="hljs-value">"true"</span>
+        <span class="hljs-attribute">android:icon</span>=<span class="hljs-value">"@mipmap/ic_launcher"</span>
+        <span class="hljs-attribute">android:label</span>=<span class="hljs-value">"@string/app_name"</span>
+        <span class="hljs-attribute">android:supportsRtl</span>=<span class="hljs-value">"true"</span>
+        <span class="hljs-attribute">android:theme</span>=<span class="hljs-value">"@style/AppTheme"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">activity</span> <span class="hljs-attribute">android:name</span>=<span class="hljs-value">".MainActivity"</span> <span class="hljs-attribute">android:screenOrientation</span>=<span class="hljs-value">"landscape"</span>
+                  <span class="hljs-attribute">android:configChanges</span>=<span class="hljs-value">"orientation|keyboardHidden|screenLayout|screenSize"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">intent-filter</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-title">action</span> <span class="hljs-attribute">android:name</span>=<span class="hljs-value">"android.intent.action.MAIN"</span>/&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-title">category</span> <span class="hljs-attribute">android:name</span>=<span class="hljs-value">"android.intent.category.LAUNCHER"</span>/&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-title">intent-filter</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-title">activity</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">application</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-title">manifest</span>&gt;</span></code></pre>
+
+<p>OK，现在可以运行一下项目了，程序启动之后就会自动开始播放视频，效果如下图所示：</p>
+
+<p></p><center><img src="http://img.blog.csdn.net/20161015121231374" alt="" title=""></center><p></p>
+
+<p>这样我们就把第一步的功能实现了。</p>
+
+
+
+<h1 id="实现弹幕效果">实现弹幕效果</h1>
+
+<p>接下来我们开始实现弹幕效果。弹幕其实也就是一个自定义的View，它的上面可以显示类似于跑马灯的文字效果。观众们发表的评论都会在弹幕上显示出来，但又会很快地移出屏幕，既可以起到互动的作用，同时又不会影响视频的正常观看。</p>
+
+<p>我们可以自己来编写这样的一个自定义View，当然也可以直接使用网上现成的开源项目。那么为了能够简单快速地实现弹幕效果，这里我就准备直接使用由哔哩哔哩开源的弹幕效果库DanmakuFlameMaster了。</p>
+
+<p>DanmakuFlameMaster库的项目主页地址是：<a href="https://github.com/Bilibili/DanmakuFlameMaster">https://github.com/Bilibili/DanmakuFlameMaster</a></p>
+
+<p>话说现在使用Android Studio来引入一些开源库真的非常方便，只需要在build.gradle文件里面添加开源库的依赖就可以了。那么我们修改app/build.gradle文件，并在dependencies闭包中添加如下依赖：</p>
+
+
+
+<pre class="prettyprint"><code class="language-groovy hljs rust">dependencies {
+    compile fileTree(<span class="hljs-keyword">dir</span>: <span class="hljs-string">'libs'</span>, include: [<span class="hljs-string">'*.jar'</span>])
+    compile <span class="hljs-string">'com.android.support:appcompat-v7:24.2.1'</span>
+    testCompile <span class="hljs-string">'junit:junit:4.12'</span>
+    compile <span class="hljs-string">'com.github.ctiao:DanmakuFlameMaster:0.5.3'</span>
+}</code></pre>
+
+<p>这样我们就将DanmakuFlameMaster库引入到当前项目中了。然后修改activity_main.xml中的代码，如下所示：</p>
+
+
+
+<pre class="prettyprint"><code class="language-xml hljs "><span class="hljs-tag">&lt;<span class="hljs-title">RelativeLayout
+</span>    <span class="hljs-attribute">xmlns:android</span>=<span class="hljs-value">"http://schemas.android.com/apk/res/android"</span>
+    <span class="hljs-attribute">android:id</span>=<span class="hljs-value">"@+id/activity_main"</span>
+    <span class="hljs-attribute">android:layout_width</span>=<span class="hljs-value">"match_parent"</span>
+    <span class="hljs-attribute">android:layout_height</span>=<span class="hljs-value">"match_parent"</span>
+    <span class="hljs-attribute">android:background</span>=<span class="hljs-value">"#000"</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-title">VideoView
+</span>        <span class="hljs-attribute">android:id</span>=<span class="hljs-value">"@+id/video_view"</span>
+        <span class="hljs-attribute">android:layout_width</span>=<span class="hljs-value">"match_parent"</span>
+        <span class="hljs-attribute">android:layout_height</span>=<span class="hljs-value">"wrap_content"</span>
+        <span class="hljs-attribute">android:layout_centerInParent</span>=<span class="hljs-value">"true"</span>/&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-title">master.flame.danmaku.ui.widget.DanmakuView
+</span>        <span class="hljs-attribute">android:id</span>=<span class="hljs-value">"@+id/danmaku_view"</span>
+        <span class="hljs-attribute">android:layout_width</span>=<span class="hljs-value">"match_parent"</span>
+        <span class="hljs-attribute">android:layout_height</span>=<span class="hljs-value">"match_parent"</span> /&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-title">RelativeLayout</span>&gt;</span></code></pre>
+
+<p>可以看到，这里在RelativeLayout中加入了一个DanmakuView控件，这个控件就是用于显示弹幕信息的了。注意一定要将DanmakuView写在VideoView的下面，因为RelativeLayout中后添加的控件会被覆盖在上面。</p>
+
+<p>接下来修改MainActivity中的代码，我们在这里加入弹幕显示的逻辑，如下所示：</p>
+
+
+
+<pre class="prettyprint"><code class="language-java hljs "><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AppCompatActivity</span> {</span>
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> showDanmaku;
+
+    <span class="hljs-keyword">private</span> DanmakuView danmakuView;
+
+    <span class="hljs-keyword">private</span> DanmakuContext danmakuContext;
+
+    <span class="hljs-keyword">private</span> BaseDanmakuParser parser = <span class="hljs-keyword">new</span> BaseDanmakuParser() {
+        <span class="hljs-annotation">@Override</span>
+        <span class="hljs-keyword">protected</span> IDanmakus <span class="hljs-title">parse</span>() {
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Danmakus();
+        }
+    };
+
+    <span class="hljs-annotation">@Override</span>
+    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span>(Bundle savedInstanceState) {
+        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        VideoView videoView = (VideoView) findViewById(R.id.video_view);
+        videoView.setVideoPath(Environment.getExternalStorageDirectory() + <span class="hljs-string">"/Pixels.mp4"</span>);
+        videoView.start();
+        danmakuView = (DanmakuView) findViewById(R.id.danmaku_view);
+        danmakuView.enableDanmakuDrawingCache(<span class="hljs-keyword">true</span>);
+        danmakuView.setCallback(<span class="hljs-keyword">new</span> DrawHandler.Callback() {
+            <span class="hljs-annotation">@Override</span>
+            <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">prepared</span>() {
+                showDanmaku = <span class="hljs-keyword">true</span>;
+                danmakuView.start();
+                generateSomeDanmaku();
+            }
+
+            <span class="hljs-annotation">@Override</span>
+            <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">updateTimer</span>(DanmakuTimer timer) {
+
+            }
+
+            <span class="hljs-annotation">@Override</span>
+            <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">danmakuShown</span>(BaseDanmaku danmaku) {
+
+            }
+
+            <span class="hljs-annotation">@Override</span>
+            <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">drawingFinished</span>() {
+
+            }
+        });
+        danmakuContext = DanmakuContext.create();
+        danmakuView.prepare(parser, danmakuContext);
+    }
+
+    <span class="hljs-javadoc">/**
+     * 向弹幕View中添加一条弹幕
+     *<span class="hljs-javadoctag"> @param</span> content
+     *          弹幕的具体内容
+     *<span class="hljs-javadoctag"> @param</span>  withBorder
+     *          弹幕是否有边框
+     */</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addDanmaku</span>(String content, <span class="hljs-keyword">boolean</span> withBorder) {
+        BaseDanmaku danmaku = danmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL);
+        danmaku.text = content;
+        danmaku.padding = <span class="hljs-number">5</span>;
+        danmaku.textSize = sp2px(<span class="hljs-number">20</span>);
+        danmaku.textColor = Color.WHITE;
+        danmaku.setTime(danmakuView.getCurrentTime());
+        <span class="hljs-keyword">if</span> (withBorder) {
+            danmaku.borderColor = Color.GREEN;
+        }
+        danmakuView.addDanmaku(danmaku);
+    }
+
+    <span class="hljs-javadoc">/**
+     * 随机生成一些弹幕内容以供测试
+     */</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">generateSomeDanmaku</span>() {
+        <span class="hljs-keyword">new</span> Thread(<span class="hljs-keyword">new</span> Runnable() {
+            <span class="hljs-annotation">@Override</span>
+            <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span>() {
+                <span class="hljs-keyword">while</span>(showDanmaku) {
+                    <span class="hljs-keyword">int</span> time = <span class="hljs-keyword">new</span> Random().nextInt(<span class="hljs-number">300</span>);
+                    String content = <span class="hljs-string">""</span> + time + time;
+                    addDanmaku(content, <span class="hljs-keyword">false</span>);
+                    <span class="hljs-keyword">try</span> {
+                        Thread.sleep(time);
+                    } <span class="hljs-keyword">catch</span> (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+    }
+
+    <span class="hljs-javadoc">/**
+     * sp转px的方法。
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">sp2px</span>(<span class="hljs-keyword">float</span> spValue) {
+        <span class="hljs-keyword">final</span> <span class="hljs-keyword">float</span> fontScale = getResources().getDisplayMetrics().scaledDensity;
+        <span class="hljs-keyword">return</span> (<span class="hljs-keyword">int</span>) (spValue * fontScale + <span class="hljs-number">0.5</span>f);
+    }
+
+    <span class="hljs-annotation">@Override</span>
+    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onPause</span>() {
+        <span class="hljs-keyword">super</span>.onPause();
+        <span class="hljs-keyword">if</span> (danmakuView != <span class="hljs-keyword">null</span> &amp;&amp; danmakuView.isPrepared()) {
+            danmakuView.pause();
+        }
+    }
+
+    <span class="hljs-annotation">@Override</span>
+    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onResume</span>() {
+        <span class="hljs-keyword">super</span>.onResume();
+        <span class="hljs-keyword">if</span> (danmakuView != <span class="hljs-keyword">null</span> &amp;&amp; danmakuView.isPrepared() &amp;&amp; danmakuView.isPaused()) {
+            danmakuView.resume();
+        }
+    }
+
+    <span class="hljs-annotation">@Override</span>
+    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onDestroy</span>() {
+        <span class="hljs-keyword">super</span>.onDestroy();
+        showDanmaku = <span class="hljs-keyword">false</span>;
+        <span class="hljs-keyword">if</span> (danmakuView != <span class="hljs-keyword">null</span>) {
+            danmakuView.release();
+            danmakuView = <span class="hljs-keyword">null</span>;
+        }
+    }
+
+    ......
+
+}</code></pre>
+
+<p>可以看到，在onCreate()方法中我们先是获取到了DanmakuView控件的实例，然后调用了enableDanmakuDrawingCache()方法来提升绘制效率，又调用了setCallback()方法来设置回调函数。</p>
+
+<p>接着调用DanmakuContext.create()方法创建了一个DanmakuContext的实例，DanmakuContext可以用于对弹幕的各种全局配置进行设定，如设置字体、设置最大显示行数等。这里我们并没有什么特殊的要求，因此一切都保持默认。</p>
+
+<p>另外我们还需要创建一个弹幕的解析器才行，这里直接创建了一个全局的BaseDanmakuParser。</p>
+
+<p>有了DanmakuContext和BaseDanmakuParser，接下来我们就可以调用DanmakuView的prepare()方法来进行准备，准备完成后会自动调用刚才设置的回调函数中的prepared()方法，然后我们在这里再调用DanmakuView的start()方法，这样DanmakuView就可以开始正常工作了。</p>
+
+<p>虽说DanmakuView已经在正常工作了，但是屏幕上没有任何弹幕信息的话我们也看不出效果，因此我们还要增加一个添加弹幕消息的功能。</p>
+
+<p>观察addDanmaku()方法，这个方法就是用于向DanmakuView中添加一条弹幕消息的。其中首先调用了createDanmaku()方法来创建一个BaseDanmaku实例，TYPE_SCROLL_RL表示这是一条从右向左滚动的弹幕，然后我们就可以对弹幕的内容、字体大小、颜色、显示时间等各种细节进行配置了。注意addDanmaku()方法中有一个withBorder参数，这个参数用于指定弹幕消息是否带有边框，这样才好将自己发送的弹幕和别人发送的弹幕进行区分。</p>
+
+<p>这样我们就把最基本的弹幕功能就完成了，现在只需要当在接收到别人发送的弹幕消息时，调用addDanmaku()方法将这条弹幕添加到DanmakuView上就可以了。但接收别人发送来的消息又涉及到了即时通讯技术，显然这一篇文章中不可能将复杂的即时通讯技术也进行讲解，因此这里我专门写了一个generateSomeDanmaku()方法来随机生成一些弹幕消息，这样就可以模拟出和斗鱼类似的弹幕效果了。</p>
+
+<p>除此之外，我们还需要在onPause()、onResume()、onDestroy()方法中进行一些逻辑处理，以保证DanmakuView的资源可以得到释放。</p>
+
+<p>现在重新运行一下程序，效果如下图所示：</p>
+
+<p></p><center><img src="http://img.blog.csdn.net/20161016143201306" alt="" title=""></center><p></p>
+
+<p>这样我们就把第二步的功能也实现了。</p>
+
+
+
+<h1 id="加入操作界面">加入操作界面</h1>
+
+<p>那么下面我们开始进行第三步功能实现，加入发送弹幕消息的操作界面。</p>
+
+<p>首先修改activity_main.xml中的代码，如下所示：</p>
+
+
+
+<pre class="prettyprint"><code class="language-xml hljs "><span class="hljs-tag">&lt;<span class="hljs-title">RelativeLayout
+</span>    <span class="hljs-attribute">xmlns:android</span>=<span class="hljs-value">"http://schemas.android.com/apk/res/android"</span>
+    <span class="hljs-attribute">android:id</span>=<span class="hljs-value">"@+id/activity_main"</span>
+    <span class="hljs-attribute">android:layout_width</span>=<span class="hljs-value">"match_parent"</span>
+    <span class="hljs-attribute">android:layout_height</span>=<span class="hljs-value">"match_parent"</span>
+    <span class="hljs-attribute">android:background</span>=<span class="hljs-value">"#000"</span>&gt;</span>
+
+    ......
+
+    <span class="hljs-tag">&lt;<span class="hljs-title">LinearLayout
+</span>        <span class="hljs-attribute">android:id</span>=<span class="hljs-value">"@+id/operation_layout"</span>
+        <span class="hljs-attribute">android:layout_width</span>=<span class="hljs-value">"match_parent"</span>
+        <span class="hljs-attribute">android:layout_height</span>=<span class="hljs-value">"50dp"</span>
+        <span class="hljs-attribute">android:layout_alignParentBottom</span>=<span class="hljs-value">"true"</span>
+        <span class="hljs-attribute">android:background</span>=<span class="hljs-value">"#fff"</span>
+        <span class="hljs-attribute">android:visibility</span>=<span class="hljs-value">"gone"</span>&gt;</span>
+
+        <span class="hljs-tag">&lt;<span class="hljs-title">EditText
+</span>            <span class="hljs-attribute">android:id</span>=<span class="hljs-value">"@+id/edit_text"</span>
+            <span class="hljs-attribute">android:layout_width</span>=<span class="hljs-value">"0dp"</span>
+            <span class="hljs-attribute">android:layout_height</span>=<span class="hljs-value">"match_parent"</span>
+            <span class="hljs-attribute">android:layout_weight</span>=<span class="hljs-value">"1"</span>
+            /&gt;</span>
+
+        <span class="hljs-tag">&lt;<span class="hljs-title">Button
+</span>            <span class="hljs-attribute">android:id</span>=<span class="hljs-value">"@+id/send"</span>
+            <span class="hljs-attribute">android:layout_width</span>=<span class="hljs-value">"wrap_content"</span>
+            <span class="hljs-attribute">android:layout_height</span>=<span class="hljs-value">"match_parent"</span>
+            <span class="hljs-attribute">android:text</span>=<span class="hljs-value">"Send"</span> /&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">LinearLayout</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-title">RelativeLayout</span>&gt;</span></code></pre>
+
+<p>可以看到，这里我们加入了一个LinearLayout来作为操作界面。LinearLayout中并没有什么复杂的控件，只有一个EditText用于输入内容，一个Button用于发送弹幕。注意我们一开始是将LinearLayout隐藏的，因为不能让这个操作界面一直遮挡着VideoView，只有用户想要发弹幕的时候才应该将它显示出来。</p>
+
+<p>接下来修改MainActivity中的代码，在这里面加入发送弹幕的逻辑，如下所示：</p>
+
+
+
+<pre class="prettyprint"><code class="language-java hljs "><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AppCompatActivity</span> {</span>
+
+    ......
+
+    <span class="hljs-annotation">@Override</span>
+    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span>(Bundle savedInstanceState) {
+        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState);
+        ......
+        <span class="hljs-keyword">final</span>  LinearLayout operationLayout = (LinearLayout) findViewById(R.id.operation_layout);
+        <span class="hljs-keyword">final</span> Button send = (Button) findViewById(R.id.send);
+        <span class="hljs-keyword">final</span> EditText editText = (EditText) findViewById(R.id.edit_text);
+        danmakuView.setOnClickListener(<span class="hljs-keyword">new</span> View.OnClickListener() {
+            <span class="hljs-annotation">@Override</span>
+            <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onClick</span>(View view) {
+                <span class="hljs-keyword">if</span> (operationLayout.getVisibility() == View.GONE) {
+                    operationLayout.setVisibility(View.VISIBLE);
+                } <span class="hljs-keyword">else</span> {
+                    operationLayout.setVisibility(View.GONE);
+                }
+            }
+        });
+        send.setOnClickListener(<span class="hljs-keyword">new</span> View.OnClickListener() {
+            <span class="hljs-annotation">@Override</span>
+            <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onClick</span>(View view) {
+                String content = editText.getText().toString();
+                <span class="hljs-keyword">if</span> (!TextUtils.isEmpty(content)) {
+                    addDanmaku(content, <span class="hljs-keyword">true</span>);
+                    editText.setText(<span class="hljs-string">""</span>);
+                }
+            }
+        });
+        getWindow().getDecorView().setOnSystemUiVisibilityChangeListener (<span class="hljs-keyword">new</span> View.OnSystemUiVisibilityChangeListener() {
+            <span class="hljs-annotation">@Override</span>
+            <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onSystemUiVisibilityChange</span>(<span class="hljs-keyword">int</span> visibility) {
+                <span class="hljs-keyword">if</span> (visibility == View.SYSTEM_UI_FLAG_VISIBLE) {
+                    onWindowFocusChanged(<span class="hljs-keyword">true</span>);
+                }
+            }
+        });
+    }
+    ......
+
+}</code></pre>
+
+<p>这里的逻辑还是比较简单的，我们先是给DanmakuView设置了一个点击事件，当点击屏幕时就会触发这个点击事件。然后进行判断，如果操作界面是隐藏的就将它显示出来，如果操作界面是显示的就将它隐藏掉，这样就可以简单地通过点击屏幕来实现操作界面的隐藏和显示了。</p>
+
+<p>接下来我们又给发送按钮注册了一个点击事件，当点击发送时，获取EditText中的输入内容，然后调用addDanmaku()方法将这条消息添加到DanmakuView上。另外，这条弹幕是由我们自己发送的，因此addDanmaku()方法的第二个参数要传入true。</p>
+
+<p>最后，由于系统输入法弹出的时候会导致焦点丢失，从而退出沉浸式模式，因此这里还对系统全局的UI变化进行了监听，保证程序一直可以处于沉浸式模式。</p>
+
+<p>这样我们就将所有的代码都完成了，现在可以运行一下看看最终效果了。由于电影播放的同时进行GIF截图生成的文件太大了，无法上传，因此这里我是在电影暂停的情况进行操作的。效果如下图所示：</p>
+
+<p></p><center><img src="http://img.blog.csdn.net/20161016174403841" alt="" title=""></center><p></p>
+
+<p>可以看到，我们自己发送的弹幕是有一个绿色边框包围的，很容易和其他弹幕区分开。</p>
+
+<p>这样我们就把第三步的功能也实现了。</p>
+
+<hr>
+
+<p>虽说现在我们已经成功实现了非常不错的弹幕效果，但其实这只是DanmakuFlameMaster库提供的最基本的功能而已。哔哩哔哩提供的这个弹幕开源库中拥有极其丰富的功能，包含各种不同的弹幕样式、特效等等。不过本篇文章的主要目标是带大家了解弹幕效果实现的思路，并不是要对DanmakuFlameMaster这个库进行全面的解析。如果你对这个库非常感兴趣，可以到它的github主页上面去学习更多的用法。</p>
+
+<p>那么今天的文章到此结束。</p>
+
+
+
+<h2 id="源码下载请点击这里"><a href="http://download.csdn.net/detail/sinyu890807/9655307">源码下载，请点击这里</a></h2>
+
+<blockquote>
+  <p>关注我的技术公众号，每天都有优质技术文章推送。关注我的娱乐公众号，工作、学习累了的时候放松一下自己。</p>
+  
+  <p>微信扫一扫下方二维码即可关注：</p>
+  
+  <p><img src="http://img.blog.csdn.net/20160507110203928" width="200px"> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;<img src="http://img.blog.csdn.net/20161011100137978" width="200px"></p>
+</blockquote></div>
+        <script  type="text/javascript">
+            $(function () {
+                $('pre.prettyprint code').each(function () {
+                    var lines = $(this).text().split('\n').length;
+                    var $numbering = $('<ul/>').addClass('pre-numbering').hide();
+                    $(this).addClass('has-numbering').parent().append($numbering);
+                    for (i = 1; i <= lines; i++) {
+                        $numbering.append($('<li/>').text(i));
+                    };
+                    $numbering.fadeIn(1700);
+                });
+            });
+        </script>
+   
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+
+
+
+<div class="bdsharebuttonbox tracking-ad" style="float: right;" data-mod="popu_172">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+   
+
+<!--172.16.140.12-->
+
+<!-- Baidu Button BEGIN -->
+<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=1536434" ></script>
+<script type="text/javascript" id="bdshell_js"></script>
+<script type="text/javascript">
+    document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+</script>
+<!-- Baidu Button END -->
+
+
+
+ 
+
+
+        <div id="digg" ArticleId="51933728" >
+            <dl id="btnDigg" class="digg digg_enable"  onclick="btndigga();">
+               
+                 <dt>顶</dt>
+                <dd>193</dd>
+            </dl>
+           
+              
+            <dl id="btnBury" class="digg digg_enable"  onclick="btnburya();">
+              
+                  <dt>踩</dt>
+                <dd>1</dd>               
+            </dl>
+            
+        </div>
+     <div class="tracking-ad" data-mod="popu_222"><a href="javascript:void(0);" >&nbsp;</a>   </div>
+    <div class="tracking-ad" data-mod="popu_223"> <a href="javascript:void(0);" >&nbsp;</a></div>
+    <script type="text/javascript">
+        function btndigga() {
+            $(".tracking-ad[data-mod='popu_222'] a").click();
+        }
+        function btnburya() {
+            $(".tracking-ad[data-mod='popu_223'] a").click();
+        }
+            </script>
+
+   <ul class="article_next_prev">
+                <li class="prev_article"><span  onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian']);location.href='http://blog.csdn.net/sinyu890807/article/details/51763825';">上一篇</span><a href="http://blog.csdn.net/sinyu890807/article/details/51763825" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian'])">Android状态栏微技巧，带你真正理解沉浸式模式</a></li>
+                <li class="next_article"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian']);location.href='http://blog.csdn.net/sinyu890807/article/details/52032038';">下一篇</span><a href="http://blog.csdn.net/sinyu890807/article/details/52032038" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian'])">历久而新，我的新书《第二行代码》已出版！</a></li>
+    </ul>
+
+    <div style="clear:both; height:10px;"></div>
+
+
+            <div class="similar_article"   >
+                    <h4></h4>
+                    <div class="similar_c"style="margin:20px 0px 0px 0px">
+                        <div class="similar_c_t">
+                          &nbsp;&nbsp;相关文章推荐
+                        </div>
+                   
+                        <div class="similar_wrap tracking-ad" data-mod="popu_36"  style="max-height:250px">                       
+                            <ul class="similar_list fl">    
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/u013504718/article/details/49928313" title="Android下的弹幕的简单实现" strategy="BlogCommendFromBaidu_0" target="_blank">Android下的弹幕的简单实现</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://edu.csdn.net/huiyiCourse/series_detail/72?utm_source=blog7" title="白鹭引擎在WebAssembly中的实践" strategy="undefined" target="_blank">白鹭引擎在WebAssembly中的实践</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/shineflowers/article/details/53054359" title="Android仿网络直播弹幕功能的实现" strategy="BlogCommendFromBaidu_1" target="_blank">Android仿网络直播弹幕功能的实现</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://edu.csdn.net/huiyiCourse/detail/602?utm_source=blog7" title="Apache Weex：移动研发的进阶之路--董岩" strategy="undefined" target="_blank">Apache Weex：移动研发的进阶之路--董岩</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/goodlixueyong/article/details/50734551" title="Android弹幕效果实现" strategy="BlogCommendFromBaidu_2" target="_blank">Android弹幕效果实现</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://edu.csdn.net/course/detail/3721?utm_source=blog7" title="微信小程序开发实战-快递查询 " strategy="undefined" target="_blank">微信小程序开发实战-快递查询 </a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://download.csdn.net/download/sinyu890807/9655307" title="Android端弹幕效果实现" strategy="BlogCommendFromBaidu_3" target="_blank">Android端弹幕效果实现</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://edu.csdn.net/course/detail/4118?utm_source=blog7" title="Python内功修炼" strategy="undefined" target="_blank">Python内功修炼</a>
+                                   </li>
+                            </ul>
+                              <ul class="similar_list fr">      
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/itluochen/article/details/52235790" title="Android开发之APP弹幕功能" strategy="BlogCommendFromBaidu_4" target="_blank">Android开发之APP弹幕功能</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://edu.csdn.net/course/detail/5337?utm_source=blog7" title=" MySQL深入浅出" strategy="undefined" target="_blank"> MySQL深入浅出</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/m0_37136295/article/details/72471591" title="Android实现弹幕效果" strategy="BlogCommendFromBaidu_5" target="_blank">Android实现弹幕效果</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://edu.csdn.net/course/detail/4826?utm_source=blog7" title="Tensorflow项目实战-文本分类 " strategy="undefined" target="_blank">Tensorflow项目实战-文本分类 </a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/zhangphil/article/details/52021055" title="Android弹幕编程设计实现的解决方案（一）" strategy="BlogCommendFromBaidu_6" target="_blank">Android弹幕编程设计实现的解决方案（一）</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://download.csdn.net/download/u013716863/7522085" title="android开源弹幕库，强力推荐" strategy="BlogCommendFromBaidu_7" target="_blank">android开源弹幕库，强力推荐</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/XieYupeng520/article/details/49232925" title="【Android效果集】弹幕效果" strategy="BlogCommendFromBaidu_8" target="_blank">【Android效果集】弹幕效果</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/a1533588867/article/details/52184287" title="Android 自定义View——BarrageView实现弹幕功能" strategy="BlogCommendFromBaidu_9" target="_blank">Android 自定义View——BarrageView实现弹幕功能</a>
+                                   </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>   
+      
+</div>
+
+
+<div id="suggest"></div>
+         <script  language="javascript" type='text/javascript'>     
+             $(function(){
+                 $.get("/sinyu890807/svc/GetSuggestContent/51933728",function(data){
+                     $("#suggest").html(data);
+                 });     
+             });             
+         </script>  
+
+
+
+            
+                                    
+            
+                                    
+
+        <!-- 广告位开始 -->
+        <!-- 广告位结束 -->
+
+
+<div class="comment_class">
+    <div id="comment_title" class="panel_head">
+        <span class="see_comment">查看评论</span><a name="comments"></a></div>
+    <div id="comment_list">
+    </div>
+    <div id="comment_bar">
+    </div>
+    <div id="comment_form">
+    </div>
+    <div class="announce">
+        * 以上用户言论只代表其个人观点，不代表CSDN网站的观点或立场<a name="reply"></a><a name="quote"></a></div>
+</div>
+
+<script type="text/javascript">
+    var fileName = '51933728';
+    var commentscount = 115;
+    var islock = false
+</script>
+
+    <div id="ad_bot">
+    </div>
+<div id="report_dialog">
+</div>
+
+<div id="d-top"  style="bottom:60px;">
+
+        <a id="quick-reply" class="btn btn-top q-reply" title="快速回复" style="display:none;">
+            <img src="http://static.blog.csdn.net/images/blog-icon-reply.png" alt="快速回复">
+        </a>    
+    <a id="d-top-a" class="btn btn-top backtop"  style="display: none;" title="返回顶部" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_huidaodingbu'])" style="">         
+         <img src="http://static.blog.csdn.net/images/top.png" alt="TOP">
+    </a>
+</div>
+<script type="text/javascript">
+    $(function ()
+    {
+        $("#ad_frm_0").height("90px");
+        
+        setTimeout(function(){
+            $("#ad_frm_2").height("200px");
+        },1000);    
+    });
+  
+</script>
+<style type="text/css">
+    .tag_list
+    {
+        background: none repeat scroll 0 0 #FFFFFF;
+        border: 1px solid #D7CBC1;
+        color: #000000;
+        font-size: 12px;
+        line-height: 20px;
+        list-style: none outside none;
+        margin: 10px 2% 0 1%;
+        padding: 1px;
+    }
+    .tag_list h5
+    {
+        background: none repeat scroll 0 0 #E0DBD3;
+        color: #47381C;
+        font-size: 12px;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 5px;
+        margin: 0;
+    }
+    .tag_list h5 a
+    {
+        color: #47381C;
+    }
+    .classify
+    {
+        margin: 10px 0;
+        padding: 4px 12px 8px;
+    }
+    .classify a
+    {
+        margin-right: 20px;
+        white-space: nowrap;
+    }
+</style>
+
+
+
+
+
+<div id="pop_win" style="display:none ;position: absolute; z-index: 10000; border: 1px solid rgb(220, 220, 220); top: 222.5px; left: 630px; opacity: 1; background: none 0px 0px repeat scroll rgb(255, 255, 255);">
+    
+</div>
+<div id="popup_mask"></div>
+<style>
+    #popup_mask
+    {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        z-index: 9999;
+        left: 0px;
+        top: 0px;
+        opacity: 0.3;
+        filter: alpha(opacity=30);
+        display: none;
+    }
+
+</style>
+
+
+
+
+<script type="text/javascript">
+    $(function(){        
+        
+        setTimeout(function(){
+            $(".comment_body:contains('回复')").each(function(index,item){
+                var u=$(this).text().split('：')[0].toString().replace("回复","")
+                var thisComment=$(this);
+                if(u)
+                {
+                    $.getJSON("https://passport.csdn.net/get/nick?callback=?", {users: u}, function(a) {
+                        if(a!=null&&a.data!=null&&a.data.length>0)
+                        {
+                            nick=a.data[0].n; 
+                            if(u!=nick)
+                            {
+                                thisComment.text(thisComment.text().replace(u,nick));  
+                            }
+                        }       
+                    });  
+                }
+            });         
+
+        },200);  
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },5000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },10000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },15000);
+        
+        setTimeout(function(){
+            $("a img[src='http://js.tongji.linezing.com/stats.gif']").parent().css({"position":"absolute","left":"50%"});
+        },300);
+    });
+
+    function loginbox(){
+        var $logpop=$("#pop_win");
+        $logpop.html('<iframe src="https://passport.csdn.net/account/loginbox?service=http://static.blog.csdn.net/callback.htm" frameborder="0" height="600" width="400" scrolling="no"></iframe>');
+
+        $('#popup_mask').css({
+            opacity: 0.5,
+            width: $( document ).width() + 'px',
+            height:  $( document ).height() + 'px'
+        });
+        $('#popup_mask').css("display","block");
+ 
+        $logpop.css( {
+            top: ($( window ).height() - $logpop.height())/ 2  + $( window 
+       ).scrollTop() + 'px',
+            left:($( window ).width() - $logpop.width())/ 2
+        } );
+ 
+        setTimeout( function () {
+            $logpop.show();
+            $logpop.css( {
+                opacity: 1
+            } );
+        }, 200 );
+ 
+        $('#popup_mask').unbind("click");
+        $('#popup_mask').bind("click", function(){
+            $('#popup_mask').hide();
+            var $clopop = $("#pop_win");
+            $("#common_ask_div_sc").css("display","none");
+            $clopop.css( {
+                opacity: 0
+            } );
+            setTimeout( function () {
+                $clopop.hide();
+            }, 350 );
+            return false;
+        });
+    }   
+
+    var articletitle='Android弹幕功能实现，模仿斗鱼直播的弹幕效果';
+
+</script>
+
+
+
+
+
+
+
+
+
+
+                        <div class="clear">
+                        </div>
+                    </div>                   
+                
+            </div>
+                   
+           <div id="side">
+               
+    <div class="side">
+<div id="panel_Profile" class="panel">
+<ul class="panel_head"><span>个人资料</span></ul>
+<ul class="panel_body profile">
+<div id="blog_userface">
+    <a href="http://my.csdn.net/sinyu890807" target="_blank">
+    <img src="http://avatar.csdn.net/8/B/B/1_sinyu890807.jpg" title="访问我的空间" style="max-width:90%"/>
+    </a>
+    <br />
+    <span><a href="http://my.csdn.net/sinyu890807" class="user_name" target="_blank">sinyu890807</a></span>
+</div>
+<div class="interact">
+
+    <a href="javascript:void(0);" class="attent" id="span_add_follow" title="[加关注]"></a>
+
+ <a href="javascript:void(0);" class="letter"  title="[发私信]" onclick="window.open('http://msg.csdn.net/letters/model?receiver=sinyu890807','_blank','height=350,width=700');_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_sixin'])"></a>  
+</div>
+<div id="blog_medal">
+                       <div class="ico_expert"  onclick="javascript:location='http://blog.csdn.net/experts/rule.html'" title="CSDN认证专家" style="cursor:pointer;width:60px;height:60px;background:url('http://c.csdnimg.cn/jifen/images/xunzhang/xunzhang/bokezhuanjiamiddle.png') no-repeat" ></div>
+                <div id="bms_box">
+                                            <a  target="_blank">
+                                                    <img src="http://c.csdnimg.cn/jifen/images/xunzhang/xunzhang/zhuanlandaren.png" onmouseover="m_over_m(this,2)" onmouseout="m_out_m()" alt="2" >
+                                            </a>
+                                            <a  target="_blank">
+                                                    <img src="http://c.csdnimg.cn/jifen/images/xunzhang/xunzhang/bokezhixing.png" onmouseover="m_over_m(this,6)" onmouseout="m_out_m()" alt="1" >
+                                            </a>
+               </div>
+</div>
+<ul id="blog_rank">
+    <li>访问：<span>7565704次</span></li>
+    <li>积分：<span>41278</span> </li>    
+    <li >等级： <span style="position:relative;display:inline-block;z-index:1" >
+            <img src="http://c.csdnimg.cn/jifen/images/xunzhang/jianzhang/blog8.png" alt="" style="vertical-align: middle;" id="leveImg">
+            <div id="smallTittle" style=" position: absolute;  left: -24px;  top: 25px;  text-align: center;  width: 101px;  height: 32px;  background-color: #fff;  line-height: 32px;  border: 2px #DDDDDD solid;  box-shadow: 0px 2px 2px rgba (0,0,0,0.1);  display: none;   z-index: 999;">
+            <div style="left: 42%;  top: -8px;  position: absolute;  width: 0;  height: 0;  border-left: 10px solid transparent;  border-right: 10px solid transparent;  border-bottom: 8px solid #EAEAEA;"></div>
+            积分：41278 </div>
+        </span>  </li>
+    <li>排名：<span>第99名</span></li>
+</ul>
+<ul id="blog_statistics">
+    <li>原创：<span>101篇</span></li>
+    <li>转载：<span>0篇</span></li>
+    <li>译文：<span>6篇</span></li>
+    <li>评论：<span>14029条</span></li>
+</ul>
+</ul>
+</div>
+
+
+
+
+<div id="custom_column_36348469" class="panel">
+<ul class="panel_head"><span>我的新书</span></ul>
+<ul class="panel_body">
+<p>《第二行代码》已出版<br>新书基于Android 7.0系统全面升级<br>更加入了许多振奋人心的新技术<br>
+<br>
+</p><center><a href="http://blog.csdn.net/sinyu890807/article/details/52032038"><img src="http://img.blog.csdn.net/20161124140922633"></a></center>
+<div style="width:130px; margin-left: auto; margin-right: auto; margin-top: 5px">
+<center>
+<p><a target="_blank" href="http://blog.csdn.net/sinyu890807/article/details/52032038">查看详情</a></p><p></p></center>
+<br>
+纸质书购买：
+<center>
+<p>
+<a target="_blank" href="https://item.jd.com/12012505.html">京东</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a target="_blank" href="https://detail.tmall.com/item.htm?id=542469538914">天猫</a> 
+<br>
+<a target="_blank" href="http://product.dangdang.com/24144166.html">当当</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a target="_blank" href="https://www.amazon.cn/dp/B01MSR5D04">亚马逊</a>
+</p>
+</center>
+
+<br>
+电子书购买：
+<center>
+<p>
+<a target="_blank" href="http://www.ituring.com.cn/book/1841">PDF</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a target="_blank" href="https://www.amazon.cn/dp/B072FCNT11">Kindle</a> 
+<br>
+<a target="_blank" href="https://read.douban.com/ebook/35604638">豆瓣版</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a target="_blank" href="http://www.duokan.com/book/142526">多看版</a>
+</p>
+</center>
+</div>
+</ul>
+</div>
+
+<div id="custom_column_22765363" class="panel">
+<ul class="panel_head"><span>微信公众号推荐</span></ul>
+<ul class="panel_body">
+<p>关注我的技术公众号，每天都有优质技术文章推送。</p>
+<p></p><center><img style="width:200px; height:200px" src="http://img.blog.csdn.net/20160507110203928"></center><p></p>
+
+<p>关注我的娱乐公众号，工作、学习累了的时候放松一下自己。</p>
+<p></p><center><img style="width:200px; height:200px" src="http://img.blog.csdn.net/20161011100137978"></center><p></p>
+
+<p></p><center><b>微信扫一扫上方二维码即可关注</b></center><p></p>
+</ul>
+</div>
+
+<div id="custom_column_26685579" class="panel">
+<ul class="panel_head"><span>共同进步</span></ul>
+<ul class="panel_body">
+<span style="display:block;">感兴趣的朋友可以加入我的QQ群，一起讨论学习，共同进步。</span><br>
+<span style="display:block;"><font color="#f00">群号：153325493</font></span><br>
+<span style="display:none;">人数有限，请不要重复加群</span>
+<span style="display:none;"><font color="#f9920d">(即满)</font></span>
+</ul>
+</div><div id="panel_Category" class="panel">
+    <ul class="panel_head"><span>博客专栏</span></ul>
+    <ul class="panel_body" id="sp_column">
+    <table cellpadding="0" cellspacing="0"><tr>
+    <td style="padding:10px 10px 0 0;">
+    <a href="http://blog.csdn.net/column/details/15318.html" target="_blank"><img src="http://img.blog.csdn.net/20170420143210632" style="width:75px;height:75px;" /></a>
+    </td>
+    <td style="padding:10px 0; vertical-align:top;">
+    <a href="http://blog.csdn.net/column/details/15318.html" target="_blank">Glide最全解析</a>
+    <p>文章：7篇</p>
+    <span>阅读：169086</span>
+    </td>
+    </tr></table>
+    <table cellpadding="0" cellspacing="0"><tr>
+    <td style="padding:10px 10px 0 0;">
+    <a href="http://blog.csdn.net/column/details/android-database-pro.html" target="_blank"><img src="http://img.blog.csdn.net/20151123180007942" style="width:75px;height:75px;" /></a>
+    </td>
+    <td style="padding:10px 0; vertical-align:top;">
+    <a href="http://blog.csdn.net/column/details/android-database-pro.html" target="_blank">Android数据库高手秘籍</a>
+    <p>文章：9篇</p>
+    <span>阅读：537137</span>
+    </td>
+    </tr></table>
+    </ul>
+</div>
+
+<div id="custom_column_37398049" class="panel">
+<ul class="panel_head"><span>友情链接</span></ul>
+<ul class="panel_body">
+<a target="_blank" href="http://blog.csdn.net/lmj623565791">鸿洋的博客</a>
+<br><br>
+<a target="_blank" href="http://blog.csdn.net/xiaanming">夏安明的博客</a>
+<br><br>
+<a target="_blank" href="http://stormzhang.com/">stormzhang的博客</a>
+<br><br>
+<a target="_blank" href="http://www.jikedaohang.com/">极客导航</a>
+<br><br>
+<a target="_blank" href="https://bbs.ksyun.com/forum.php?ch=00008.00009&hmsr=yylt&hmpl=&hmcu=&hmkw=&hmci=">金山云-以渔论坛</a>
+</ul>
+</div><div id="panel_Category" class="panel">
+<ul class="panel_head"><span>文章分类</span></ul>
+<ul class="panel_body">    
+                 <li>
+                    <a href="/sinyu890807/article/category/1369150" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Android精华教程</a><span>(21)</span>
+                </li>
+                 <li>
+                    <a href="/sinyu890807/article/category/1399638" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Android疑难解析</a><span>(43)</span>
+                </li>
+                 <li>
+                    <a href="/sinyu890807/article/category/2400923" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Android第一行代码</a><span>(4)</span>
+                </li>
+                 <li>
+                    <a href="/sinyu890807/article/category/2522725" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Android数据库高手秘籍</a><span>(8)</span>
+                </li>
+                 <li>
+                    <a href="/sinyu890807/article/category/1381137" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Java设计模式透析</a><span>(5)</span>
+                </li>
+                 <li>
+                    <a href="/sinyu890807/article/category/1380837" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Ruby设计模式透析</a><span>(5)</span>
+                </li>
+                 <li>
+                    <a href="/sinyu890807/article/category/1807611" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">随笔</a><span>(7)</span>
+                </li>
+</ul>
+</div><div id="panel_Archive" class="panel">
+<ul class="panel_head"><span>文章存档</span></ul>
+<ul class="panel_body">
+<div id="archive_list">
+<!--归档统计-->
+<li><a href="/sinyu890807/article/month/2017/10">2017年10月</a><span>(2)</span></li><li><a href="/sinyu890807/article/month/2017/08">2017年08月</a><span>(1)</span></li><li><a href="/sinyu890807/article/month/2017/06">2017年06月</a><span>(1)</span></li><li><a href="/sinyu890807/article/month/2017/05">2017年05月</a><span>(1)</span></li><li><a href="/sinyu890807/article/month/2017/04">2017年04月</a><span>(1)</span></li><li><a href="/sinyu890807/article/month/2017/03">2017年03月</a><span>(1)</span></li><li><a href="/sinyu890807/article/month/2017/02">2017年02月</a><span>(1)</span></li><li><a href="/sinyu890807/article/month/2016/12">2016年12月</a><span>(2)</span></li><li><a href="/sinyu890807/article/month/2016/11">2016年11月</a><span>(1)</span></li><li><a href="/sinyu890807/article/month/2016/10">2016年10月</a><span>(1)</span></li><li><a href="/sinyu890807/article/month/2016/08">2016年08月</a><span>(1)</span></li><li><a href="/sinyu890807/article/month/2016/07">2016年07月</a><span>(1)</span></li><li><a href="/sinyu890807/article/month/2016/06">2016年06月</a><span>(2)</span></li><li><a href="/sinyu890807/article/month/2016/05">2016年05月</a><span>(1)</span></li><li><a href="/sinyu890807/article/month/2016/04">2016年04月</a><span>(1)</span></li><li><a href="/sinyu890807/article/month/2016/03">2016年03月</a><span>(2)</span></li><li><a href="/sinyu890807/article/month/2016/02">2016年02月</a><span>(1)</span></li><li><a href="/sinyu890807/article/month/2016/01">2016年01月</a><span>(1)</span></li><li><a href="/sinyu890807/article/month/2015/12">2015年12月</a><span>(2)</span></li><li><a href="/sinyu890807/article/month/2015/11">2015年11月</a><span>(1)</span></li><li><a href="/sinyu890807/article/month/2015/10">2015年10月</a><span>(1)</span></li><li><a href="/sinyu890807/article/month/2015/08">2015年08月</a><span>(1)</span></li><li><a href="/sinyu890807/article/month/2015/07">2015年07月</a><span>(1)</span></li><li><a href="/sinyu890807/article/month/2015/06">2015年06月</a><span>(1)</span></li><li><a href="/sinyu890807/article/month/2015/05">2015年05月</a><span>(1)</span></li><li><a href="/sinyu890807/article/month/2015/04">2015年04月</a><span>(1)</span></li><li><a href="/sinyu890807/article/month/2015/03">2015年03月</a><span>(2)</span></li><li><a href="/sinyu890807/article/month/2015/02">2015年02月</a><span>(2)</span></li><li><a href="/sinyu890807/article/month/2014/12">2014年12月</a><span>(3)</span></li><li><a href="/sinyu890807/article/month/2014/11">2014年11月</a><span>(1)</span></li><li><a href="/sinyu890807/article/month/2014/10">2014年10月</a><span>(2)</span></li><li><a href="/sinyu890807/article/month/2014/09">2014年09月</a><span>(5)</span></li><li><a href="/sinyu890807/article/month/2014/08">2014年08月</a><span>(3)</span></li><li><a href="/sinyu890807/article/month/2014/07">2014年07月</a><span>(3)</span></li><li><a href="/sinyu890807/article/month/2014/06">2014年06月</a><span>(2)</span></li><li><a href="/sinyu890807/article/month/2014/05">2014年05月</a><span>(1)</span></li><li><a href="/sinyu890807/article/month/2014/04">2014年04月</a><span>(3)</span></li><li><a href="/sinyu890807/article/month/2014/03">2014年03月</a><span>(1)</span></li><li><a href="/sinyu890807/article/month/2014/01">2014年01月</a><span>(2)</span></li><li><a href="/sinyu890807/article/month/2013/12">2013年12月</a><span>(5)</span></li><li><a href="/sinyu890807/article/month/2013/11">2013年11月</a><span>(4)</span></li><li><a href="/sinyu890807/article/month/2013/10">2013年10月</a><span>(4)</span></li><li><a href="/sinyu890807/article/month/2013/09">2013年09月</a><span>(4)</span></li><li><a href="/sinyu890807/article/month/2013/08">2013年08月</a><span>(4)</span></li><li><a href="/sinyu890807/article/month/2013/07">2013年07月</a><span>(5)</span></li><li><a href="/sinyu890807/article/month/2013/06">2013年06月</a><span>(5)</span></li><li><a href="/sinyu890807/article/month/2013/05">2013年05月</a><span>(5)</span></li><li><a href="/sinyu890807/article/month/2013/04">2013年04月</a><span>(6)</span></li><li><a href="/sinyu890807/article/month/2013/03">2013年03月</a><span>(4)</span></li>
+</div>
+</ul>
+</div>
+<div id="hotarticls" class="panel tracking-ad" data-mod="popu_340">
+<ul class="panel_head">
+    <span>       
+阅读排行    </span>
+</ul>
+
+<ul class="panel_body itemlist">
+<li>
+<a href="/guolin_blog/article/details/9097463" title="Android事件分发机制完全解析，带你从源码的角度彻底理解(上)">Android事件分发机制完全解析，带你从源码的角度彻底理解(上)</a><span>(310199)</span>
+</li>
+<li>
+<a href="/guolin_blog/article/details/17482095" title="Android Volley完全解析(一)，初识Volley的基本用法">Android Volley完全解析(一)，初识Volley的基本用法</a><span>(289093)</span>
+</li>
+<li>
+<a href="/guolin_blog/article/details/8881711" title="Android Fragment完全解析，关于碎片你所需知道的一切">Android Fragment完全解析，关于碎片你所需知道的一切</a><span>(260106)</span>
+</li>
+<li>
+<a href="/guolin_blog/article/details/12921889" title="Android LayoutInflater原理分析，带你一步步深入了解View(一)">Android LayoutInflater原理分析，带你一步步深入了解View(一)</a><span>(241552)</span>
+</li>
+<li>
+<a href="/guolin_blog/article/details/11952435" title="Android Service完全解析，关于服务你所需知道的一切(上)">Android Service完全解析，关于服务你所需知道的一切(上)</a><span>(220468)</span>
+</li>
+<li>
+<a href="/guolin_blog/article/details/18234477" title="Android ActionBar完全解析，使用官方推荐的最佳导航栏(上)">Android ActionBar完全解析，使用官方推荐的最佳导航栏(上)</a><span>(184021)</span>
+</li>
+<li>
+<a href="/guolin_blog/article/details/9316683" title="Android高效加载大图、多图解决方案，有效避免程序OOM">Android高效加载大图、多图解决方案，有效避免程序OOM</a><span>(178272)</span>
+</li>
+<li>
+<a href="/guolin_blog/article/details/16330267" title="Android视图绘制流程完全解析，带你一步步深入了解View(二)">Android视图绘制流程完全解析，带你一步步深入了解View(二)</a><span>(176282)</span>
+</li>
+<li>
+<a href="/guolin_blog/article/details/17482165" title="Android Volley完全解析(二)，使用Volley加载网络图片">Android Volley完全解析(二)，使用Volley加载网络图片</a><span>(143365)</span>
+</li>
+<li>
+<a href="/guolin_blog/article/details/17357967" title="Android自定义View的实现方法，带你一步步深入了解View(四)">Android自定义View的实现方法，带你一步步深入了解View(四)</a><span>(134448)</span>
+</li>
+</ul>
+</div>
+<div id="hotarticls2" class="panel tracking-ad" data-mod="popu_341">
+<ul class="panel_head"><span>评论排行</span></ul>
+<ul class="panel_body itemlist">
+<li>
+<a href="/guolin_blog/article/details/26365913" title="历时一年，我的著作《第一行代码——Android》已出版！">历时一年，我的著作《第一行代码——Android》已出版！</a><span>(723)</span>
+</li>
+<li>
+<a href="/guolin_blog/article/details/52032038" title="历久而新，我的新书《第二行代码》已出版！">历久而新，我的新书《第二行代码》已出版！</a><span>(657)</span>
+</li>
+<li>
+<a href="/guolin_blog/article/details/12921889" title="Android LayoutInflater原理分析，带你一步步深入了解View(一)">Android LayoutInflater原理分析，带你一步步深入了解View(一)</a><span>(360)</span>
+</li>
+<li>
+<a href="/guolin_blog/article/details/9097463" title="Android事件分发机制完全解析，带你从源码的角度彻底理解(上)">Android事件分发机制完全解析，带你从源码的角度彻底理解(上)</a><span>(322)</span>
+</li>
+<li>
+<a href="/guolin_blog/article/details/34093441" title="Android照片墙完整版，完美结合LruCache和DiskLruCache">Android照片墙完整版，完美结合LruCache和DiskLruCache</a><span>(321)</span>
+</li>
+<li>
+<a href="/guolin_blog/article/details/38556989" title="Android数据库高手秘籍(二)——创建表和LitePal的基本用法">Android数据库高手秘籍(二)——创建表和LitePal的基本用法</a><span>(278)</span>
+</li>
+<li>
+<a href="/guolin_blog/article/details/9255575" title="Android下拉刷新完全解析，教你如何一分钟实现下拉刷新功能">Android下拉刷新完全解析，教你如何一分钟实现下拉刷新功能</a><span>(271)</span>
+</li>
+<li>
+<a href="/guolin_blog/article/details/9671609" title="Android双向滑动菜单完全解析，教你如何一分钟实现双向滑动特效">Android双向滑动菜单完全解析，教你如何一分钟实现双向滑动特效</a><span>(268)</span>
+</li>
+<li>
+<a href="/guolin_blog/article/details/49805231" title="2015年终总结，忙碌和无所事事的一年">2015年终总结，忙碌和无所事事的一年</a><span>(254)</span>
+</li>
+<li>
+<a href="/guolin_blog/article/details/8744400" title="Android滑动菜单框架完全解析，教你如何一分钟实现滑动菜单特效">Android滑动菜单框架完全解析，教你如何一分钟实现滑动菜单特效</a><span>(252)</span>
+</li>
+</ul>
+</div>
+<div id="newcomments" class="panel">
+<ul class="panel_head"><span>最新评论</span></ul>
+<ul class="panel_body itemlist">
+    <li>
+   
+         <a href="/guolin_blog/article/details/78357251#comments">Android图片加载框架最全解析（七），实现带进度的Glide图片加载功能</a>
+    <p style="margin:0px;"><a href="/u012185875" class="user_name">u012185875</a>:
+郭神，用了两天的时间拜读了您的glide系列，并转载到了自己的博客（已经注明转载）。一遍下来并没有完...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/guolin_blog/article/details/50945228#comments">Android通知栏微技巧，那些你所没关注过的小细节</a>
+    <p style="margin:0px;"><a href="/lsfzlj" class="user_name">lsfzlj</a>:
+6.0 上小图标设置成 RGB 出现上述问题，但是华为手机 7.0上又可以设置成RGB图片。是不是7...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/guolin_blog/article/details/50727753#comments">Android drawable微技巧，你所不知道的drawable的那些细节</a>
+    <p style="margin:0px;"><a href="/lulicheng" class="user_name">lulicheng</a>:
+@qq_15381135:你测试结果有问题吧，我只在nodpi, 和 ldpi放置图片，发现命中的是...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/guolin_blog/article/details/17612763#comments">Android Volley完全解析(三)，定制自己的Request</a>
+    <p style="margin:0px;"><a href="/u013934399" class="user_name">u013934399</a>:
+写的真好，第一次是不会用。第二次是看源码的时候。第三次是再看源码，打算修改volley的时候。大佬，...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/guolin_blog/article/details/8689140#comments">Android桌面悬浮窗效果实现，仿360手机卫士悬浮窗效果</a>
+    <p style="margin:0px;"><a href="/qq_37881148" class="user_name">qq_37881148</a>:
+windowManager.addView(smallWindow, smallWindowPara...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/guolin_blog/article/details/8689140#comments">Android drawable微技巧，你所不知道的drawable的那些细节</a>
+    <p style="margin:0px;"><a href="/upupupgoing" class="user_name">upupupgoing</a>:
+@qq_14932027:占用内存的算法是  (图片所属资源密度 / 手机DPI * 原始图片宽度)...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/guolin_blog/article/details/8689140#comments">Android图片加载框架最全解析（七），实现带进度的Glide图片加载功能</a>
+    <p style="margin:0px;"><a href="/FinalLiangZai" class="user_name">FinalLiangZai</a>:
+@sinyu890807:吓得我趁博客内容还免费、还没转到书的时候，赶紧看/笑哭
+    </p>
+    </li>
+    <li>
+   
+         <a href="/guolin_blog/article/details/39207945#comments">Android数据库高手秘籍(四)——使用LitePal建立表关联</a>
+    <p style="margin:0px;"><a href="/myzqsql" class="user_name">myzqsql</a>:
+@wjb820728252:find(Class&amp;lt;T&amp;gt; modelClass, long...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/guolin_blog/article/details/52032038#comments">历久而新，我的新书《第二行代码》已出版！</a>
+    <p style="margin:0px;"><a href="/qq_30269343" class="user_name">qq_30269343</a>:
+你好，我在学习你的新书过程中，出现了Android studio 模拟器打开就闪退的情况，请问这个怎...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/guolin_blog/article/details/53122387#comments">Android新特性介绍，ConstraintLayout完全解析</a>
+    <p style="margin:0px;"><a href="/w630886916" class="user_name">w630886916</a>:
+请教一个问题，如果有重叠关系。且都有点击事件。点击事件的触发是怎么走的？怎么确定上下层控件？
+    </p>
+    </li>
+</ul>
+</div>
+<div class="panel" id="panel_Search">
+    <ul class="panel_head"><span>文章搜索</span></ul>
+    <ul class="panel_body" class="form_search">
+        <form id="frmSearch" action="http://so.csdn.net/search" class="form_search csdn-tracking-statistics" target="_blank"  data-mod="popu_306">
+        <span><input id="inputSearch" type="text" class="blogsearch" title="请输入关键字" /></span>
+        <input id="btnSubmit" type="button" value="搜索" title="search in blog" />
+        <input type="hidden" name="q" id="inputQ" />
+        <input type="hidden" name="t" value="blog" />
+        <a id="btnSearchBlog" target="_blank"></a>
+        </form>
+    </ul>
+</div>
+
+<script type="text/javascript">
+
+   
+    $(function () {
+        $("#btnSubmit").unbind("click");
+        $("#btnSubmit").click(function () {           
+            search();
+        });
+
+        $("#frmSearch").submit(function () {           
+            search();
+            return false;
+        });
+
+        function search()
+        {
+            if ($("#inputSearch").val() == "") {               
+                alert("请录入搜索关键词！");                         
+                return false;
+            }
+            //var url = "http://so.csdn.net/so/search/s.do?q=" + encodeURIComponent($("#inputSearch").val()) + "&u=" + username + "&t=blog";           
+            var url = "https://www.baidu.com/s?wd=" + encodeURIComponent($("#inputSearch").val()) + "%20site%3Ablog.csdn.net"
+            window.location.href = url;
+        }   
+    });
+</script>
+
+<div id="custom_column_37394313" class="panel">
+<ul class="panel_head"><span>统计</span></ul>
+<ul class="panel_body">
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1601636'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/stat.php%3Fid%3D1601636' type='text/javascript'%3E%3C/script%3E"));</script>
+</ul>
+</div>    </div>
+    <div class="clear">
+    </div>
+
+
+           </div>   
+            <div class="clear">
+            </div>
+        </div>
+
+        
+
+
+
+
+
+
+
+
+    <script type="text/javascript" src="http://passport.csdn.net/content/loginbox/login.js"></script>
+<script type="text/javascript">
+    $(function () {
+        function __get_code_toolbar(snippet_id) {
+            return $("<span class='tracking-ad' data-mod='popu_167'><a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "' target='_blank' title='在CODE上查看代码片'  style='text-indent:0;'><img src='https://code.csdn.net/assets/CODE_ico.png' width=12 height=12 alt='在CODE上查看代码片' style='position:relative;top:1px;left:2px;'/></a></span>"
+                    + "<span class='tracking-ad' data-mod='popu_170'><a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "/fork' target='_blank' title='派生到我的代码片' style='text-indent:0;'><img src='https://code.csdn.net/assets/ico_fork.svg' width=12 height=12 alt='派生到我的代码片' style='position:relative;top:2px;left:2px;'/></a></span>");
+        }
+        
+        $("[code_snippet_id]").each(function () {
+            __s_id = $(this).attr("code_snippet_id");
+            if (__s_id != null && __s_id != "" && __s_id != 0 && parseInt(__s_id) > 70020) {
+                __code_tool = __get_code_toolbar(__s_id);
+                $(this).prev().find(".tools").append(__code_tool);
+            }
+        });
+
+        $(".bar").show();
+    });
+</script>
+
+
+
+
+
+    </div>
+     
+
+
+       <script type="text/javascript" src="http://static.blog.csdn.net/public/res/bower-libs/MathJax/MathJax.js?config=TeX-AMS_HTML"></script>   
+    
+    <script src="http://static.blog.csdn.net/scripts/csdn_blog_detail.min.js?v2017.041" type="text/javascript"></script>
+        
+    <script type="text/javascript" src="http://c.csdnimg.cn/blog/csdn_public_blog_detail.min.js?20170719001"></script>
+
+    <script type="text/javascript" src="http://medal.blog.csdn.net/showblogmedal.ashx?blogid=844287"></script>
+
+
+  <div id="a52b5334d" style="width: 1px; height: 1px; display: none;">
+                    <script id="adJs52b5334"></script>
+                    <script>document.getElementById("adJs52b5334").src = "http://ads.csdn.net/js/opt/52b5334.js?t=" + Math.random();</script>
+   </div>
+          
+    <div class="pop_CA_cover"  style="display:none"></div>
+    <div class="pop pop_CA"  style="display:none">
+          <div class="CA_header">
+            收藏助手
+            <span class="cancel_icon"  id="fapancle"  onclick="$('.pop_CA').hide();$('.pop_CA_cover').hide();"></span>
+          </div>
+          <iframe src="" id="fa" frameborder="0" width="100%" height="360"  scrolling="no" ></iframe>
+    </div>
+
+
+        <script type="text/javascript">
+
+            $(function () {
+                var fromjs = $("#fromjs");
+                if (fromjs.length > 0) {
+                    $("#fromjs .markdown_views pre").addClass("prettyprint");
+                    prettyPrint();
+
+                    $('pre.prettyprint code').each(function () {
+                        var lines = $(this).text().split('\n').length;
+                        var $numbering = $('<ul/>').addClass('pre-numbering').hide();
+                        $(this).addClass('has-numbering').parent().append($numbering);
+                        for (i = 1; i <= lines; i++) {
+                            $numbering.append($('<li/>').text(i));
+                        };
+                        $numbering.fadeIn(1700);
+                    });
+
+                    $('.pre-numbering li').css("color", "#999");
+                }
+            });
+
+            $(".markdown_views a[target!='_blank']").attr("target", "_blank");
+
+            //$(".toc a[target='_blank']").attr("target", "");
+
+            setTimeout(function () {
+                $(".toc a[target='_blank']").attr("target", "");
+            }, 500);
+
+        </script>
+
+</body>
+</html>   
